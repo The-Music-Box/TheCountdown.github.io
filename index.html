@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Metrics Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body { background-color: #f8f9fa; }
+        .counter { font-size: 2.5rem; font-weight: bold; color: #0d6efd; }
+        .card-header { background-color: #0d6efd; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <header class="text-center mb-5">
+            <h1 class="display-4">Australia Metrics Dashboard</h1>
+            <p class="lead">Live counters based on recent government data</p>
+        </header>
+
+        <div class="row">
+            <!-- Migrant Arrival Counter -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h5 class="mb-0">Migrant Arrivals</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Based on ABS data for December 2025: approximately <strong>90.58</strong> migrants arriving per hour.</p>
+                        <p>Estimated arrivals since page load:</p>
+                        <div id="migrant-counter" class="counter">0.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- National Debt Counter -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h5 class="mb-0">National Debt Increase</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Based on MYEFO forecasts: debt increasing by approximately <strong>$8.68 million</strong> per hour.</p>
+                        <p>Estimated increase since page load:</p>
+                        <div id="debt-counter" class="counter">$0.00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center mt-5">
+            <small>This is an estimate using average rates from recent data. Refresh to reset counters.<br>
+            Sources: Australian Bureau of Statistics (ABS) for migrant data; Australian Office of Financial Management (AOFM) and MYEFO for debt data.<br>
+            Note: Debt figures refer to gross government debt. Migrant data is a proxy and not official migration stats.</small>
+        </footer>
+    </div>
+
+    <script>
+        // Migrant counter
+        const migrantRatePerHour = 90.58;
+        const migrantRatePerSecond = migrantRatePerHour / 3600;
+        const migrantStart = Date.now() / 1000;
+
+        function updateMigrant() {
+            const now = Date.now() / 1000;
+            const elapsed = now - migrantStart;
+            const count = elapsed * migrantRatePerSecond;
+            document.getElementById('migrant-counter').textContent = count.toFixed(2);
+        }
+
+        // Debt counter
+        const debtRatePerHour = 8676000; // $8.68 million
+        const debtRatePerSecond = debtRatePerHour / 3600;
+        const debtStart = Date.now() / 1000;
+
+        function updateDebt() {
+            const now = Date.now() / 1000;
+            const elapsed = now - debtStart;
+            const count = elapsed * debtRatePerSecond;
+            document.getElementById('debt-counter').textContent = '$' + count.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Update every 100ms
+        setInterval(() => {
+            updateMigrant();
+            updateDebt();
+        }, 100);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
